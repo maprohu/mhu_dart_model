@@ -1,0 +1,202 @@
+syntax = "proto3";
+
+message CmnTimestampMsg {
+  double millisSinceEpoch = 1;
+}
+
+message CmnDimensionsMsg {
+  int32 width = 1;
+  int32 height = 2;
+}
+
+message CmnGeolocationMsg {
+  double latitude = 1;
+  double longitude = 2;
+  CmnTimestampMsg timestamp = 3;
+  double altitude = 4;
+  double accuracy = 5;
+  double heading = 6;
+  double speed = 7;
+  double speedAccuracy = 8;
+}
+
+message CmnPointMsg {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message CmnOffsetMsg {
+  double x = 1;
+  double y = 2;
+}
+message CmnBoundingBoxMsg {
+  CmnPointMsg origin = 1;
+  CmnDimensionsMsg size = 2;
+}
+
+
+// dynamic fields
+
+
+message CmnTypeDefMsg {
+  oneof type {
+    CmnIntTypeMsg intType = 3;
+    CmnStringTypeMsg stringType = 4;
+    CmnDecimalTypeMsg decimalType = 5;
+    CmnBoolTypeMsg boolType = 6;
+    CmnDateTypeMsg dateType = 8;
+    CmnEnumTypeMsg enumType = 9;
+    CmnListTypeMsg listType = 10;
+    CmnSetTypeMsg setType = 11;
+    CmnRefTypeMsg refType = 12;
+  }
+}
+
+
+
+message CmnIntTypeMsg {}
+message CmnStringTypeMsg {}
+message CmnDecimalTypeMsg {}
+message CmnBoolTypeMsg {}
+message CmnDateTypeMsg {
+  CmnDatePrecisionEnm precision = 1;
+}
+enum CmnDatePrecisionEnm {
+  day = 0;
+  month = 1;
+  year = 2;
+}
+message CmnEnumTypeMsg {
+  repeated CmnEnumOptionMsg options = 1;
+}
+
+message CmnEnumOptionMsg {
+  string value = 1;
+  string label = 2;
+  bool hidden = 3;
+}
+
+message CmnListTypeMsg {
+  CmnTypeDefMsg item = 1;
+}
+message CmnSetTypeMsg {
+  CmnTypeDefMsg item = 1;
+}
+message CmnRefTypeMsg {
+}
+
+message CmnFieldValueMsg {
+  oneof type {
+    int32 intValue = 3;
+    string stringValue = 4;
+    string decimalValue = 5;
+    CmnDateValueMsg dateValue = 6;
+    bool boolValue = 8;
+    string enumValue = 9;
+    CmnRepeatedValueMsg listValue = 10;
+    CmnRepeatedValueMsg setValue = 11;
+    CmnFieldValueMsg refValue = 12;
+  }
+}
+
+enum CmnMonthEnm {
+  none = 0;
+  january = 1;
+  february = 2;
+  march = 3;
+  april = 4;
+  may = 5;
+  june = 6;
+  july = 7;
+  august = 8;
+  september = 9;
+  october = 10;
+  november = 11;
+  december = 12;
+}
+
+
+message CmnDateValueMsg {
+  int32 year = 1;
+  CmnMonthEnm month = 2;
+  int32 day = 3;
+}
+
+message CmnRepeatedValueMsg {
+  repeated CmnFieldValueMsg values = 1;
+}
+
+// XML
+
+message CmnXmlElementMsg {
+  oneof cardinality {
+    CmnXmlSingleElementMsg single = 1;
+    CmnXmlRepeatedElementMsg repeated = 2;
+  }
+}
+
+message CmnXmlAttributeMsg {
+  string name = 1;
+  oneof value {
+    string text = 2;
+    string parameter = 3;
+    int32 indexStartAt = 4;
+  }
+}
+
+message CmnXmlSingleElementMsg {
+  string name = 1;
+  repeated CmnXmlAttributeMsg attributes = 2;
+  repeated CmnXmlContentMsg content = 3;
+}
+
+message CmnXmlContentMsg {
+  oneof type {
+    string text = 1;
+    string parameter = 2;
+    CmnXmlAggregateMsg aggregate = 3;
+    CmnXmlElementMsg element = 4;
+    CmnExpressionMsg expression = 5;
+  }
+}
+
+message CmnXmlAggregateMsg {
+  string source = 1;
+  oneof type {
+    string sumOf = 2;
+  }
+}
+
+message CmnXmlRepeatedElementMsg {
+  string source = 1;
+  CmnXmlElementMsg element = 2;
+}
+
+// expressions
+
+message CmnExpressionMsg {
+  oneof type {
+    string parameter = 1;
+    CmnValidCharactersExpressionMsg validCharacters = 2;
+  }
+}
+
+message CmnValidCharactersExpressionMsg {
+  CmnExpressionMsg expression = 1;
+  string validCharacters = 2;
+}
+
+
+// Color Theme
+
+message CmnColorThemeMsg {
+  uint32 seedColor = 1;
+  reserved 2 ; // bool darkTheme = 2;
+  CmnThemeModeEnm themeMode = 3;
+}
+
+enum CmnThemeModeEnm {
+  system = 0;
+  light = 1;
+  dark = 2;
+}
