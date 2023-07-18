@@ -1,5 +1,5 @@
 name: mhu_dart_model
-version: 1.0.1-dev
+version: 1.0.0
 description: Common models
 repository: https://github.com/maprohu/mhu_dart_model
 
@@ -7,26 +7,21 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  path: ^1.8.3
-  rxdart: ^0.27.7
-  collection: ^1.17.1
-  logger: any
-  protobuf: any
-  cross_file: any
-  fast_immutable_collections: any
-  isar: any
-  freezed_annotation: any
-  mhu_dart_proto:
-    path: ../mhu_dart_proto
-  mhu_dart_commons:
-    path: ../mhu_dart_commons
+  protobuf: ^3.0.0
+  fast_immutable_collections: ^9.1.5
+  mhu_dart_proto: ^1.0.1
+  fixnum: ^1.1.0
+
+  #  mhu_dart_proto:
+  #    path: ../mhu_dart_proto
+  mhu_dart_commons: ^1.0.7
+#  mhu_dart_commons:
+#    path: ../mhu_dart_commons
 
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
-  build_runner: any
-  isar_generator: any
-  freezed: any
-  mhu_dart_builder:
-    path: ../mhu_dart_builder
+  mhu_dart_builder: ^1.0.1
+#  mhu_dart_builder:
+#    path: ../mhu_dart_builder
 

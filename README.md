@@ -1,6 +1,7 @@
-# MHU Dart Commons
+# MHU Dart Model
 
-Common utility classes and functions used in my Dart and Flutter projects.
+Common models.
+
 
 # Usage
 
