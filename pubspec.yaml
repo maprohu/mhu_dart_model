@@ -1,5 +1,5 @@
 name: mhu_dart_model
-version: 1.0.0
+version: 1.0.1
 description: Common models
 repository: https://github.com/maprohu/mhu_dart_model
 
@@ -9,11 +9,11 @@ environment:
 dependencies:
   protobuf: ^3.0.0
   fast_immutable_collections: ^9.1.5
-  mhu_dart_proto: ^1.0.1
   fixnum: ^1.1.0
 
-  #  mhu_dart_proto:
-  #    path: ../mhu_dart_proto
+  mhu_dart_proto: ^1.0.1
+#  mhu_dart_proto:
+#    path: ../mhu_dart_proto
   mhu_dart_commons: ^1.0.7
 #  mhu_dart_commons:
 #    path: ../mhu_dart_commons
