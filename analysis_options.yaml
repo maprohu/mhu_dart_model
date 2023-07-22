@@ -1,6 +1,6 @@
 include: package:lints/recommended.yaml
 
-analyzer:
-  exclude:
-    - '**.pb.dart'
-    - '**.pbmeta.dart'
+#analyzer:
+#  exclude:
+#    - '**.pb.dart'
+#    - '**.pbmeta.dart'
