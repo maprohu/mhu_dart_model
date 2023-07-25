@@ -1,4 +1,4 @@
-
+import 'package:mhu_dart_commons/commons.dart';
 
 import '../proto.dart';
 
@@ -36,9 +36,21 @@ extension CmnDateValueMsgX on CmnDateValueMsg {
   DateTime get toDateTime => DateTime(year, month.value, day);
 }
 
-extension CmnEnumOptionMsgX on CmnEnumOptionMsg {
-  String get labelOrValue => labelOpt ?? value;
+extension CmnEnumOptionMsgX on StringMapEntry<CmnEnumOptionMsg> {
+  String? get labelOpt => value.labelOpt;
 
-  String labelOrValueOr(String fallback) => labelOpt ?? valueOpt ?? fallback;
+  String get labelOrKey => labelOpt ?? key;
+
+  bool get hidden => value.hidden;
 }
 
+Comparator<StringMapEntry<CmnEnumOptionMsg>> cmnEnumOptionsComparator =
+    compareMany([
+  compareByFieldNatural(
+    (t) => t.value.orderOpt,
+    comparator: nullLast(compareTo<num>),
+  ),
+  compareByField(
+    (t) => t.labelOrKey,
+  ),
+]);

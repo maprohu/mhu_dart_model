@@ -4,13 +4,12 @@ import 'package:test/test.dart';
 void main() {
   test('create object with repeated field', () {
     final msg = CmnEnumTypeMsg$.create(
-      options: [
-        CmnEnumOptionMsg$.create(
-          value: 'x',
+      options: {
+        'x': CmnEnumOptionMsg$.create(
         ),
-      ],
+      },
     );
 
-    expect(msg.options.single.value, 'x');
+    expect(msg.options.keys.single, 'x');
   });
 }
