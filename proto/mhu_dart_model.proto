@@ -67,12 +67,12 @@ enum CmnDatePrecisionEnm {
   year = 2;
 }
 message CmnEnumTypeMsg {
-  repeated CmnEnumOptionMsg options = 1;
+  map<string, CmnEnumOptionMsg> options = 2;
 }
 
 message CmnEnumOptionMsg {
-  string value = 1;
   string label = 2;
+  int32 order = 4;
   bool hidden = 3;
 }
 
