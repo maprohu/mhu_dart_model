@@ -16,6 +16,7 @@ jobs:
       - run: sudo apt-get install -y protobuf-compiler
       - run: dart pub global activate protoc_plugin
       - run: dart pub get
-      - run: dart tool/run_protoc.dart
+      - run: dart tool/run_pb_all.dart
+      - run: dart test
       - run: dart pub publish --dry-run
       - run: dart pub publish -f
