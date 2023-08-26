@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:mhu_dart_builder/mhu_dart_builder.dart';
 import 'package:mhu_dart_commons/io.dart';
+import 'run_pblib.dart' as pblib;
 
 void main() async {
-  await runPbLibGenerator();
+  await pblib.main();
 
   await Directory.current.run(
     'dart',

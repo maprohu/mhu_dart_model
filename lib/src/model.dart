@@ -1,6 +1,11 @@
+import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 import 'package:mhu_dart_commons/commons.dart';
 
 import '../proto.dart';
+
+import 'model.dart' as $lib;
+
+part 'model.g.dart';
 
 CmnTimestampMsg cmnTimestampFromDateTime(DateTime dateTime) => CmnTimestampMsg()
   ..millisSinceEpoch = dateTime.millisecondsSinceEpoch.toDouble()
@@ -54,3 +59,11 @@ Comparator<StringMapEntry<CmnEnumOptionMsg>> cmnEnumOptionsComparator =
     (t) => t.labelOrKey,
   ),
 ]);
+
+CmnAny cmnAnyFromBytes({
+  @ext required List<int> bytes,
+}) {
+  return CmnAny()
+    ..data = bytes
+    ..freeze();
+}

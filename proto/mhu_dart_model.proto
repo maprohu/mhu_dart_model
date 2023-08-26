@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+message CmnAny {
+  bytes data = 1;
+}
+
 message CmnTimestampMsg {
   double millisSinceEpoch = 1;
 }

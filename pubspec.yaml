@@ -6,24 +6,35 @@ repository: https://github.com/maprohu/mhu_dart_model
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
-#dependency_overrides:
-#  mhu_dart_commons:
-#    path: ../mhu_dart_commons
-#  mhu_dart_proto:
-#    path: ../mhu_dart_proto
-#  mhu_dart_builder:
-#    path: ../mhu_dart_builder
+dependency_overrides:
+  mhu_dart_commons:
+    path: ../mhu_dart_commons
+  mhu_dart_proto:
+    path: ../mhu_dart_proto
+  mhu_dart_builder:
+    path: ../mhu_dart_builder
+  mhu_dart_sourcegen:
+    path: ../mhu_dart_sourcegen
+  mhu_dart_pbgen:
+    path: ../mhu_dart_pbgen
+  mhu_dart_annotation:
+    path: ../mhu_dart_annotation
+  mhu_flutter_commons:
+    path: ../mhu_flutter_commons
 
 dependencies:
   protobuf: ^3.0.0
   fast_immutable_collections: ^9.1.5
   fixnum: ^1.1.0
 
+  mhu_dart_annotation: ^1.0.0
   mhu_dart_proto: ^1.0.2
   mhu_dart_commons: ^1.0.8
 
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
+  build_runner: ^2.4.6
   mhu_dart_builder: ^1.0.2
+  mhu_dart_pbgen: ^1.0.0
 
