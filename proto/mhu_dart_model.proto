@@ -204,3 +204,104 @@ enum CmnThemeModeEnm {
   light = 1;
   dark = 2;
 }
+
+// proto schema
+
+message MpbDescriptionMsg {
+  string name = 1;
+}
+message MpbMessageMsg {
+  MpbDescriptionMsg description = 1;
+  MpbReferenceMsg enclosing_message = 2;
+
+  repeated MpbLogicalFieldMsg fields = 3;
+}
+
+message MpbEnumMsg {
+  MpbDescriptionMsg description = 1;
+  MpbReferenceMsg enclosing_message = 2;
+
+  repeated MpbEnumValueMsg enum_values = 3;
+}
+message MpbEnumValueMsg {
+  MpbDescriptionMsg description = 1;
+  int32 enum_value = 2;
+}
+
+message MpbLogicalFieldMsg {
+  oneof type {
+    MpbFieldMsg physical_field = 1;
+    MpbOneofMsg oneof = 2;
+  }
+}
+
+message MpbFieldMsg {
+  MpbFieldInfoMsg field_info = 1;
+  oneof type {
+    MpbSingleTypeMsg single_type = 2;
+    MpbRepeatedTypeMsg repeated_type = 3;
+    MpbMapTypeMsg map_field = 4;
+  }
+}
+message MpbOneofMsg {
+  MpbDescriptionMsg description = 1;
+  repeated MpbFieldMsg fields = 2;
+}
+
+message MpbFieldInfoMsg {
+  MpbDescriptionMsg description = 1;
+  int32 tag_number = 2;
+}
+
+message MpbSingleTypeMsg {
+  oneof type {
+    MpbScalarTypeEnm scalar_type = 1;
+    MpbReferenceMsg message_type = 2;
+    MpbReferenceMsg enum_type = 3;
+  }
+}
+message MpbRepeatedTypeMsg {
+  MpbSingleTypeMsg single_type = 1;
+}
+message MpbMapTypeMsg {
+  enum KeyTypeEnm {
+    TYPE_UNSPECIFIED = 0;
+    INT32_TYPE = 3;
+    INT64_TYPE = 4;
+    UINT32_TYPE = 5;
+    UINT64_TYPE = 6;
+    SINT32_TYPE = 7;
+    SINT64_TYPE = 8;
+    FIXED32_TYPE = 9;
+    FIXED64_TYPE = 10;
+    SFIXED32_TYPE = 11;
+    SFIXED64_TYPE = 12;
+    BOOL_TYPE = 13;
+    STRING_TYPE = 14;
+  }
+  KeyTypeEnm key_type = 1;
+  MpbSingleTypeMsg value_type = 2;
+}
+
+enum MpbScalarTypeEnm {
+  TYPE_UNSPECIFIED = 0;
+  DOUBLE_TYPE = 1;
+  FLOAT_TYPE = 2;
+  INT32_TYPE = 3;
+  INT64_TYPE = 4;
+  UINT32_TYPE = 5;
+  UINT64_TYPE = 6;
+  SINT32_TYPE = 7;
+  SINT64_TYPE = 8;
+  FIXED32_TYPE = 9;
+  FIXED64_TYPE = 10;
+  SFIXED32_TYPE = 11;
+  SFIXED64_TYPE = 12;
+  BOOL_TYPE = 13;
+  STRING_TYPE = 14;
+  BYTES_TYPE = 15;
+}
+
+message MpbReferenceMsg {
+  uint64 reference_id = 1;
+}
