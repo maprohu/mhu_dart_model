@@ -5,7 +5,7 @@ message CmnAny {
 }
 
 message CmnTimestampMsg {
-  double millisSinceEpoch = 1;
+  double millis_sinceEpoch = 1;
 }
 
 message CmnDimensionsMsg {
@@ -21,7 +21,7 @@ message CmnGeolocationMsg {
   double accuracy = 5;
   double heading = 6;
   double speed = 7;
-  double speedAccuracy = 8;
+  double speed_accuracy = 8;
 }
 
 message CmnPointMsg {
@@ -44,15 +44,15 @@ message CmnBoundingBoxMsg {
 
 message CmnTypeDefMsg {
   oneof type {
-    CmnIntTypeMsg intType = 3;
-    CmnStringTypeMsg stringType = 4;
-    CmnDecimalTypeMsg decimalType = 5;
-    CmnBoolTypeMsg boolType = 6;
-    CmnDateTypeMsg dateType = 8;
-    CmnEnumTypeMsg enumType = 9;
-    CmnListTypeMsg listType = 10;
-    CmnSetTypeMsg setType = 11;
-    CmnRefTypeMsg refType = 12;
+    CmnIntTypeMsg int_type = 3;
+    CmnStringTypeMsg string_type = 4;
+    CmnDecimalTypeMsg decimal_type = 5;
+    CmnBoolTypeMsg bool_type = 6;
+    CmnDateTypeMsg date_type = 8;
+    CmnEnumTypeMsg enum_type = 9;
+    CmnListTypeMsg list_type = 10;
+    CmnSetTypeMsg set_type = 11;
+    CmnRefTypeMsg ref_type = 12;
   }
 }
 
@@ -91,15 +91,15 @@ message CmnRefTypeMsg {
 
 message CmnFieldValueMsg {
   oneof type {
-    int32 intValue = 3;
-    string stringValue = 4;
-    string decimalValue = 5;
-    CmnDateValueMsg dateValue = 6;
-    bool boolValue = 8;
-    string enumValue = 9;
-    CmnRepeatedValueMsg listValue = 10;
-    CmnRepeatedValueMsg setValue = 11;
-    CmnFieldValueMsg refValue = 12;
+    int32 int_value = 3;
+    string string_value = 4;
+    string decimal_value = 5;
+    CmnDateValueMsg date_value = 6;
+    bool bool_value = 8;
+    string enum_value = 9;
+    CmnRepeatedValueMsg list_value = 10;
+    CmnRepeatedValueMsg set_value = 11;
+    CmnFieldValueMsg ref_value = 12;
   }
 }
 
@@ -144,7 +144,7 @@ message CmnXmlAttributeMsg {
   oneof value {
     string text = 2;
     string parameter = 3;
-    int32 indexStartAt = 4;
+    int32 index_start_at = 4;
   }
 }
 
@@ -167,7 +167,7 @@ message CmnXmlContentMsg {
 message CmnXmlAggregateMsg {
   string source = 1;
   oneof type {
-    string sumOf = 2;
+    string sum_of = 2;
   }
 }
 
@@ -181,22 +181,22 @@ message CmnXmlRepeatedElementMsg {
 message CmnExpressionMsg {
   oneof type {
     string parameter = 1;
-    CmnValidCharactersExpressionMsg validCharacters = 2;
+    CmnValidCharactersExpressionMsg valid_characters = 2;
   }
 }
 
 message CmnValidCharactersExpressionMsg {
   CmnExpressionMsg expression = 1;
-  string validCharacters = 2;
+  string valid_characters = 2;
 }
 
 
 // Color Theme
 
 message CmnColorThemeMsg {
-  uint32 seedColor = 1;
+  uint32 seed_color = 1;
   reserved 2 ; // bool darkTheme = 2;
-  CmnThemeModeEnm themeMode = 3;
+  CmnThemeModeEnm theme_mode = 3;
 }
 
 enum CmnThemeModeEnm {
@@ -209,6 +209,7 @@ enum CmnThemeModeEnm {
 
 message MpbDescriptionMsg {
   string name = 1;
+  string json_name = 2;
 }
 message MpbMessageMsg {
   MpbDescriptionMsg description = 1;
@@ -266,18 +267,18 @@ message MpbRepeatedTypeMsg {
 message MpbMapTypeMsg {
   enum KeyTypeEnm {
     TYPE_UNSPECIFIED = 0;
-    INT32_TYPE = 3;
-    INT64_TYPE = 4;
-    UINT32_TYPE = 5;
-    UINT64_TYPE = 6;
-    SINT32_TYPE = 7;
-    SINT64_TYPE = 8;
-    FIXED32_TYPE = 9;
-    FIXED64_TYPE = 10;
-    SFIXED32_TYPE = 11;
-    SFIXED64_TYPE = 12;
-    BOOL_TYPE = 13;
-    STRING_TYPE = 14;
+    TYPE_INT32 = 3;
+    TYPE_INT64 = 4;
+    TYPE_UINT32 = 5;
+    TYPE_UINT64 = 6;
+    TYPE_SINT32 = 7;
+    TYPE_SINT64 = 8;
+    TYPE_FIXED32 = 9;
+    TYPE_FIXED64 = 10;
+    TYPE_SFIXED32 = 11;
+    TYPE_SFIXED64 = 12;
+    TYPE_BOOL = 13;
+    TYPE_STRING = 14;
   }
   KeyTypeEnm key_type = 1;
   MpbSingleTypeMsg value_type = 2;
@@ -285,21 +286,21 @@ message MpbMapTypeMsg {
 
 enum MpbScalarTypeEnm {
   TYPE_UNSPECIFIED = 0;
-  DOUBLE_TYPE = 1;
-  FLOAT_TYPE = 2;
-  INT32_TYPE = 3;
-  INT64_TYPE = 4;
-  UINT32_TYPE = 5;
-  UINT64_TYPE = 6;
-  SINT32_TYPE = 7;
-  SINT64_TYPE = 8;
-  FIXED32_TYPE = 9;
-  FIXED64_TYPE = 10;
-  SFIXED32_TYPE = 11;
-  SFIXED64_TYPE = 12;
-  BOOL_TYPE = 13;
-  STRING_TYPE = 14;
-  BYTES_TYPE = 15;
+  TYPE_DOUBLE = 1;
+  TYPE_FLOAT = 2;
+  TYPE_INT32 = 3;
+  TYPE_INT64 = 4;
+  TYPE_UINT32 = 5;
+  TYPE_UINT64 = 6;
+  TYPE_SINT32 = 7;
+  TYPE_SINT64 = 8;
+  TYPE_FIXED32 = 9;
+  TYPE_FIXED64 = 10;
+  TYPE_SFIXED32 = 11;
+  TYPE_SFIXED64 = 12;
+  TYPE_BOOL = 13;
+  TYPE_STRING = 14;
+  TYPE_BYTES = 15;
 }
 
 message MpbReferenceMsg {

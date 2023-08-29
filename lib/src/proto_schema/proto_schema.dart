@@ -27,6 +27,9 @@ abstract class SchemaCtx {}
 typedef MessageMsg = MpbMessageMsg;
 
 @Has()
+typedef EnumMsg = MpbEnumMsg;
+
+@Has()
 typedef FieldMsg = MpbFieldMsg;
 
 @Has()
@@ -41,5 +44,5 @@ typedef OneofMsg = MpbOneofMsg;
 @Has()
 typedef MessageLookup = IMap<MpbReferenceMsg, MessageCtx>;
 
-@Compose()
-abstract class SchemaCollection implements HasMessageLookup {}
+// @Compose()
+// abstract class SchemaCollection implements HasMessageLookup {}
