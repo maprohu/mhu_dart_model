@@ -1,5 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
+import 'package:mhu_dart_commons/commons.dart';
 import 'package:mhu_dart_model/mhu_dart_model.dart';
 import 'package:mhu_dart_proto/mhu_dart_proto.dart';
 import 'package:protobuf/protobuf.dart';
@@ -12,9 +15,13 @@ part 'proto_schema.g.dart';
 
 part 'message.dart';
 
+part 'enum.dart';
+
 part 'logical_field.dart';
 
 part 'field.dart';
+
+part 'type.dart';
 
 part 'oneof.dart';
 
@@ -22,9 +29,10 @@ part 'descriptor.dart';
 
 part 'generated_message.dart';
 
-@Has()
-@Compose()
-abstract class SchemaCtx {}
+part 'resolve.dart';
+
+part 'schema.dart';
+
 
 @Has()
 typedef MessageMsg = MpbMessageMsg;
@@ -44,8 +52,6 @@ typedef ReferenceMsg = MpbReferenceMsg;
 @Has()
 typedef OneofMsg = MpbOneofMsg;
 
-@Has()
-typedef MessageLookup = IMap<MpbReferenceMsg, MessageCtx>;
 
 // @Compose()
 // abstract class SchemaCollection implements HasMessageLookup {}

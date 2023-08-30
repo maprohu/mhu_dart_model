@@ -30,6 +30,7 @@ dependencies:
   mhu_dart_annotation: ^1.0.0
   mhu_dart_proto: ^1.0.2
   mhu_dart_commons: ^1.0.8
+  collection: ^1.17.2
 
 dev_dependencies:
   lints: ^2.0.0

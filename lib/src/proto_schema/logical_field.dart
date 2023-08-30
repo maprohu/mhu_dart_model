@@ -1,10 +1,14 @@
 part of 'proto_schema.dart';
 
 @Has()
-typedef FieldName = String;
+typedef FieldProtoName = String;
+
+// @Has()
+// typedef ReadLogicalField<F> = ReadAttribute<Msg, F>;
 
 @Compose()
-abstract class LogicalFieldActions implements HasFieldName {}
+abstract class LogicalFieldActions<F>
+    implements HasFieldProtoName {}
 
 @Has()
 sealed class LogicalFieldCtx implements LogicalFieldActions, MessageCtx {}

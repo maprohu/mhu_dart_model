@@ -184,7 +184,7 @@ SchemaCollection descriptorSchemaCollection({
           final fieldMsg = MpbFieldMsg$.create(
             fieldInfo: MpbFieldInfoMsg$.create(
               description: MpbDescriptionMsg$.create(
-                name: fieldDescriptor.name,
+                protoName: fieldDescriptor.name,
                 jsonName: fieldDescriptor.jsonName,
               ),
               tagNumber: fieldDescriptor.number,
@@ -240,7 +240,7 @@ SchemaCollection descriptorSchemaCollection({
               valueFieldDescriptor,
             ] = mapEntryDescriptor.field;
 
-            fieldMsg.mapField = MpbMapTypeMsg$.create(
+            fieldMsg.mapType = MpbMapTypeMsg$.create(
               keyType: switch (keyFieldDescriptor.type) {
                 PbTypes.TYPE_INT32 => MapKeyTypes.TYPE_INT32,
                 PbTypes.TYPE_INT64 => MapKeyTypes.TYPE_INT64,
@@ -261,7 +261,9 @@ SchemaCollection descriptorSchemaCollection({
           }
 
           void repeatedField() {
-            fieldMsg.repeatedType = MpbRepeatedTypeMsg$.create();
+            fieldMsg.repeatedType = MpbRepeatedTypeMsg$.create(
+              singleType: singleTypeMsg(fieldDescriptor),
+            );
           }
 
           switch (fieldDescriptor.label) {
@@ -314,7 +316,7 @@ SchemaCollection descriptorSchemaCollection({
 
       return MpbMessageMsg$.create(
         description: MpbDescriptionMsg$.create(
-          name: messageDescriptor.name,
+          protoName: messageDescriptor.name,
         ),
         enclosingMessage: enclosingMessage,
         fields: logicalFields(),
@@ -327,13 +329,13 @@ SchemaCollection descriptorSchemaCollection({
     }) {
       return MpbEnumMsg$.create(
         description: MpbDescriptionMsg$.create(
-          name: enumDescriptor.name,
+          protoName: enumDescriptor.name,
         ),
         enclosingMessage: enclosingMessage,
         enumValues: enumDescriptor.value.map(
           (value) => MpbEnumValueMsg$.create(
             description: MpbDescriptionMsg$.create(
-              name: value.name,
+              protoName: value.name,
             ),
             enumValue: value.number,
           ),

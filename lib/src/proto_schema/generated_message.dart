@@ -15,16 +15,10 @@ class GenericMsg extends Msg {
   final BuilderInfo info_;
 }
 
-BuilderInfo genericBuilderInfo({
-  @extHas required MessageMsg messageMsg,
-}) {
-  return BuilderInfo(null);
-}
-
 GenericMsg createGenericMsg({
-  @extHas required MessageMsg messageMsg,
+  @ext required MessageCtx messageCtx,
 }) {
   return GenericMsg(
-    info: messageMsg.genericBuilderInfo(),
+    info: messageCtx.callGenericBuilderInfo(),
   );
 }

@@ -12,7 +12,7 @@ abstract class OneofCtx
         HasCallOneofOptionsList {}
 
 @Compose()
-abstract class OneofOptionCtx implements OneofCtx, FieldActions, FieldCtx {}
+abstract class OneofOptionCtx implements OneofCtx, FieldBits, FieldCtx {}
 
 OneofCtx createOneofCtx({
   @ext required MessageCtx messageCtx,
@@ -24,7 +24,7 @@ OneofCtx createOneofCtx({
   return oneofCtx = ComposedOneofCtx.merge$(
     messageCtx: messageCtx,
     logicalFieldActions: ComposedLogicalFieldActions(
-      fieldName: oneofMsg.description.name,
+      fieldProtoName: oneofMsg.description.protoName,
     ),
     callOneofOptionsList: () => oneofOptionsList,
   );
@@ -36,6 +36,9 @@ OneofOptionCtx createOneofOptionCtx({
 }) {
   return ComposedOneofOptionCtx.merge$(
     oneofCtx: oneofCtx,
-    fieldActions: ComposedFieldActions(),
+    fieldBits: createFieldBits(
+      messageCtx: oneofCtx,
+      fieldMsg: fieldMsg,
+    ),
   );
 }
