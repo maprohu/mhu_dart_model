@@ -27,8 +27,28 @@ void main() {
       },
     );
 
-    
+    final schemaCtx = ComposedSchemaCtx();
 
+    final messages = schemaCollection.messages;
+
+    final dimensionMsg = messages.singleWhere(
+      (e) => e.msg.description.name == (CmnDimensionsMsg).toString(),
+    );
+
+    final dimensionCtx = schemaCtx.createMessageCtx(
+      messageMsg: dimensionMsg.msg,
+      referenceMsg: dimensionMsg.reference,
+    );
+
+    final widthCtx = dimensionCtx.callLogicalFieldsList().singleWhere(
+          (e) => e.fieldName == CmnDimensionsMsg$.width.name,
+        );
+
+    widthCtx as FieldCtx;
+
+    final dimensionWidth1 = CmnDimensionsMsg$.create(
+      width: 1,
+    )..freeze();
 
   });
 }

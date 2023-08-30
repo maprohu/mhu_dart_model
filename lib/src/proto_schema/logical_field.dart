@@ -1,7 +1,13 @@
 part of 'proto_schema.dart';
 
 @Has()
-sealed class LogicalFieldCtx implements MessageCtx {}
+typedef FieldName = String;
+
+@Compose()
+abstract class LogicalFieldActions implements HasFieldName {}
+
+@Has()
+sealed class LogicalFieldCtx implements LogicalFieldActions, MessageCtx {}
 
 LogicalFieldCtx createLogicalFieldCtx({
   @ext required MessageCtx messageCtx,

@@ -5,7 +5,11 @@ typedef OneofOptionsList = IList<OneofOptionCtx>;
 
 @Compose()
 abstract class OneofCtx
-    implements MessageCtx, LogicalFieldCtx, HasCallOneofOptionsList {}
+    implements
+        MessageCtx,
+        LogicalFieldActions,
+        LogicalFieldCtx,
+        HasCallOneofOptionsList {}
 
 @Compose()
 abstract class OneofOptionCtx implements OneofCtx, FieldActions, FieldCtx {}
@@ -17,8 +21,11 @@ OneofCtx createOneofCtx({
   late final OneofCtx oneofCtx;
   late final oneofOptionsList =
       oneofMsg.fields.map(oneofCtx.createOneofOptionCtx$).toIList();
-  return oneofCtx = ComposedOneofCtx.messageCtx(
+  return oneofCtx = ComposedOneofCtx.merge$(
     messageCtx: messageCtx,
+    logicalFieldActions: ComposedLogicalFieldActions(
+      fieldName: oneofMsg.description.name,
+    ),
     callOneofOptionsList: () => oneofOptionsList,
   );
 }

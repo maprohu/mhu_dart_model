@@ -5,7 +5,7 @@ abstract class FieldActions {}
 
 @Has()
 @Compose()
-abstract class FieldCtx implements MessageCtx, FieldActions, LogicalFieldCtx {}
+abstract class FieldCtx implements MessageCtx, FieldActions, LogicalFieldActions, LogicalFieldCtx {}
 
 FieldCtx createTopFieldCtx({
   required MessageCtx messageCtx,
@@ -14,5 +14,8 @@ FieldCtx createTopFieldCtx({
   return ComposedFieldCtx.merge$(
     messageCtx: messageCtx,
     fieldActions: ComposedFieldActions(),
+    logicalFieldActions: ComposedLogicalFieldActions(
+      fieldName: fieldMsg.fieldInfo.description.name,
+    ),
   );
 }

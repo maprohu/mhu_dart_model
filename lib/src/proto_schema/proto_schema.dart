@@ -2,6 +2,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 import 'package:mhu_dart_model/mhu_dart_model.dart';
 import 'package:mhu_dart_proto/mhu_dart_proto.dart';
+import 'package:protobuf/protobuf.dart';
 
 import 'proto_schema.dart' as $lib;
 
@@ -18,6 +19,8 @@ part 'field.dart';
 part 'oneof.dart';
 
 part 'descriptor.dart';
+
+part 'generated_message.dart';
 
 @Has()
 @Compose()

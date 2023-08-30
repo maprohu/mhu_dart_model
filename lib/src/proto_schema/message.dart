@@ -8,7 +8,7 @@ abstract class MessageCtx
     implements SchemaCtx, HasCallLogicalFieldsList, HasReferenceMsg {}
 
 MessageCtx createMessageCtx({
-  required SchemaCtx schemaCtx,
+  @ext required SchemaCtx schemaCtx,
   required MessageMsg messageMsg,
   required ReferenceMsg referenceMsg,
 }) {
