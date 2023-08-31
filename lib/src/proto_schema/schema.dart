@@ -18,8 +18,22 @@ typedef RegisterMessage = Future<MessageCtx> Function(
 @Compose()
 abstract class SchemaBuilder implements HasSchemaCtx, HasRegisterMessage {}
 
+@Has()
+typedef LookupMessageCtxByName = MessageCtx Function(
+  String messageClassName,
+);
+
+@Has()
+typedef LookupEnumCtxByName = EnumCtx Function(
+  String enumClassName,
+);
+
+@Compose()
+@Has()
+abstract class SchemaLookupByName implements HasLookupMessageCtxByName {}
+
 SchemaBuilder createSchemaBuilder({
-  required ResolveCtx resolveCtx,
+  @ext required ResolveCtx resolveCtx,
 }) {
   final enumLookup = <ReferenceMsg, EnumCtx>{};
   final messageLookup = <ReferenceMsg, MessageCtx>{};

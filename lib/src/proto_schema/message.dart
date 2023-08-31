@@ -106,6 +106,15 @@ Iterable<MessageCtx> messageCtxPath({
       .reversed;
 }
 
+String messageCtxTypeName({
+  @ext required MessageCtx messageCtx,
+}) {
+  return messageCtx
+      .messageCtxPath()
+      .map((e) => e.messageMsg.description.protoName)
+      .join('_');
+}
+
 Iterable<FieldMsg> messageMsgPhysicalFields({
   @ext required MessageMsg messageMsg,
 }) sync* {

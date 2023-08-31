@@ -39,3 +39,20 @@ Future<EnumMsg> resolveEnumMsg({
     createMsg: EnumMsg.new,
   );
 }
+
+ResolveCtx schemaCollectionToResolveCtx({
+  @ext required SchemaCollection schemaCollection,
+}) {
+  final resolveLookup = {
+    for (final message in schemaCollection.messages)
+      message.reference: message.msg.writeToBuffer(),
+    for (final enm in schemaCollection.enums)
+      enm.reference: enm.msg.writeToBuffer(),
+  };
+
+  return ComposedResolveCtx(
+    resolveReference: (referencedMsg) async {
+      return resolveLookup[referencedMsg] ?? (throw referencedMsg);
+    },
+  );
+}

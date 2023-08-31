@@ -40,6 +40,72 @@ typedef CreateTypeReference = ReferenceMsg Function(
   TypeCoordinates typeCoordinates,
 );
 
+typedef ReferenceSequence = Call<int>;
+
+ReferenceSequence memoryReferenceSequence({
+  final int startAt = 0,
+}) {
+  var nextSequenceNumber = startAt;
+  return () => nextSequenceNumber++;
+}
+
+CreateTypeReference memoryCreateTypeReference({
+  ReferenceSequence? referenceSequence,
+}) {
+  final effectiveReferenceSequence =
+      referenceSequence ?? memoryReferenceSequence();
+
+  final references = <TypeCoordinates, ReferenceMsg>{};
+
+  return (typeCoordinates) {
+    return references.putIfAbsent(
+      typeCoordinates,
+      () => MpbReferenceMsg$.create(
+        referenceId: Int64(
+          effectiveReferenceSequence(),
+        ),
+      ),
+    );
+  };
+}
+
+Future<SchemaLookupByName> descriptorSchemaLookupByName({
+  @ext required FileDescriptorSet fileDescriptorSet,
+}) async {
+  final schemaCollection = fileDescriptorSet.descriptorSchemaCollection(
+    messageReference: memoryCreateTypeReference(),
+  );
+
+  final schemaBuilder =
+      schemaCollection.schemaCollectionToResolveCtx().createSchemaBuilder();
+
+  for (final message in schemaCollection.messages) {
+    await schemaBuilder.registerMessage(message.reference);
+  }
+
+  final schemaCtx = schemaBuilder.schemaCtx;
+
+  final messageCtxIterable = schemaCollection.messages
+      .map((e) => schemaCtx.lookupMessage(e.reference));
+
+  final messageCtxByTypeName = {
+    for (final messageCtx in messageCtxIterable)
+      messageCtx.messageCtxTypeName(): messageCtx,
+  };
+
+  return ComposedSchemaLookupByName(
+    lookupMessageCtxByName: messageCtxByTypeName.getOrThrow,
+  );
+}
+
+MessageCtx lookupMessageCtxOfType<M extends Msg>({
+  @ext required SchemaLookupByName schemaLookupByName,
+}) {
+  return schemaLookupByName.lookupMessageCtxByName(
+    M.toString(),
+  );
+}
+
 SchemaCollection descriptorSchemaCollection({
   @ext required FileDescriptorSet fileDescriptorSet,
   required CreateTypeReference messageReference,
