@@ -66,17 +66,35 @@ void main() async {
 
   final typeActions = int32ValueCtx.typeActions as ScalarTypeActions<int>;
 
+  final int32ValueFieldCoordinates = int32ValueCtx.callFieldCoordinates();
+
   final fieldTypesMsg2 = fieldTypesMsg1.rebuild(
     (msg) {
       typeActions.writeFieldValue(
         msg,
-        int32ValueCtx.callFieldCoordinates(),
+        int32ValueFieldCoordinates,
         2,
       );
     },
   );
 
+  print(fieldTypesMsg2);
+
   assert(fieldTypesMsg2.int32Value == 2);
 
-  final genericMsg = fieldTypesCtx.createGenericMsg();
+  final genericMsg = fieldTypesCtx.createGenericMsg()..freeze();
+
+
+  final genericFieldTypesMsg3 = genericMsg.rebuild(
+        (msg) {
+      typeActions.writeFieldValue(
+        msg,
+        int32ValueFieldCoordinates,
+        3,
+      );
+    },
+  );
+
+  print(genericFieldTypesMsg3);
+
 }

@@ -9,7 +9,12 @@ abstract class FieldBits implements HasCallFieldCoordinates, HasTypeActions {}
 @Has()
 @Compose()
 abstract class FieldCtx
-    implements MessageCtx, LogicalFieldActions, FieldBits, LogicalFieldCtx {}
+    implements
+        MessageCtx,
+        LogicalFieldActions,
+        FieldBits,
+        LogicalFieldCtx,
+        HasFieldMsg {}
 
 FieldCtx createTopFieldCtx({
   required MessageCtx messageCtx,
@@ -17,6 +22,7 @@ FieldCtx createTopFieldCtx({
 }) {
   return ComposedFieldCtx.merge$(
     messageCtx: messageCtx,
+    fieldMsg: fieldMsg,
     logicalFieldActions: ComposedLogicalFieldActions(
       fieldProtoName: fieldMsg.fieldInfo.description.protoName,
     ),
@@ -32,7 +38,9 @@ FieldBits createFieldBits({
   required FieldMsg fieldMsg,
 }) {
   return ComposedFieldBits(
-    typeActions: fieldMsg.fieldMsgTypeActions(),
+    typeActions: fieldMsg.fieldMsgTypeActions(
+      messageCtx: messageCtx,
+    ),
     callFieldCoordinates: lazy(
       () => ComposedFieldCoordinates(
         fieldIndex: messageCtx.lookupFieldIndex(fieldMsg),
@@ -40,4 +48,10 @@ FieldBits createFieldBits({
       ),
     ),
   );
+}
+
+TagNumberValue fieldCtxTagNumber({
+  @ext required FieldCtx fieldCtx,
+}) {
+  return fieldCtx.fieldMsg.fieldInfo.tagNumber;
 }

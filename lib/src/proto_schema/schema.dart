@@ -1,14 +1,14 @@
 part of 'proto_schema.dart';
 
 @Has()
-typedef MessageLookup = Lookup<MpbReferenceMsg, MessageCtx>;
+typedef LookupMessage = Lookup<MpbReferenceMsg, MessageCtx>;
 
 @Has()
-typedef EnumLookup = Lookup<MpbReferenceMsg, EnumCtx>;
+typedef LookupEnum = Lookup<MpbReferenceMsg, EnumCtx>;
 
 @Compose()
 @Has()
-abstract class SchemaCtx implements HasEnumLookup, HasMessageLookup {}
+abstract class SchemaCtx implements HasLookupEnum, HasLookupMessage {}
 
 @Has()
 typedef RegisterMessage = Future<MessageCtx> Function(
@@ -25,8 +25,8 @@ SchemaBuilder createSchemaBuilder({
   final messageLookup = <ReferenceMsg, MessageCtx>{};
 
   final schemaCtx = ComposedSchemaCtx(
-    enumLookup: enumLookup.getOrThrow,
-    messageLookup: messageLookup.getOrThrow,
+    lookupEnum: enumLookup.getOrThrow,
+    lookupMessage: messageLookup.getOrThrow,
   );
 
   Future<MessageCtx> processMessage({
@@ -87,9 +87,9 @@ SchemaBuilder createSchemaBuilder({
       }
     }
 
-    Iterable<Future> processPhysicalField({
-      required FieldMsg fieldMsg,
-    }) sync* {
+    Iterable<Future> processPhysicalField(
+      FieldMsg fieldMsg,
+    ) sync* {
       switch (fieldMsg.type) {
         case MpbFieldMsg_Type$singleType(:final singleType):
           yield* processSingleType(singleTypeMsg: singleType);
@@ -102,24 +102,9 @@ SchemaBuilder createSchemaBuilder({
       }
     }
 
-    Iterable<Future> processFields() sync* {
-      for (final logicalField in messageMsg.fields) {
-        switch (logicalField.type) {
-          case MpbLogicalFieldMsg_Type$physicalField(:final physicalField):
-            yield* processPhysicalField(fieldMsg: physicalField);
-          case MpbLogicalFieldMsg_Type$oneof(:final oneof):
-            for (final physicalField in oneof.fields) {
-              yield* processPhysicalField(fieldMsg: physicalField);
-            }
-          default:
-            throw logicalField;
-        }
-      }
-    }
-
     final enclosingMessage = messageMsg.enclosingMessageOpt;
     await Future.wait([
-      ...processFields(),
+      ...messageMsg.messageMsgPhysicalFields().expand(processPhysicalField),
       if (enclosingMessage != null)
         processMessage(referenceMsg: enclosingMessage),
     ]);
@@ -141,12 +126,12 @@ MessageCtx schemaLookupMessage({
   @ext required SchemaCtx schemaCtx,
   @ext required ReferenceMsg referenceMsg,
 }) {
-  return schemaCtx.messageLookup(referenceMsg);
+  return schemaCtx.lookupMessage(referenceMsg);
 }
 
 EnumCtx schemaLookupEnum({
   @ext required SchemaCtx schemaCtx,
   @ext required ReferenceMsg referenceMsg,
 }) {
-  return schemaCtx.enumLookup(referenceMsg);
+  return schemaCtx.lookupEnum(referenceMsg);
 }

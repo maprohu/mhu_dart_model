@@ -20,8 +20,17 @@ message TstFieldTypesMsg {
   TstEnumEnm enum_value = 16;
   TstMessageMsg message_value = 17;
 
-  repeated int32  repeated_value = 18;
-  map<string, TstMessageMsg> map_value = 19;
+  repeated int32 repeated_int32_value = 18;
+  repeated int64 repeated_int64_value = 19;
+  repeated string repeated_string_value = 20;
+  repeated bool repeated_bool_value = 21;
+  repeated bytes repeated_bytes_value = 22;
+  repeated double repeated_double_value = 23;
+  repeated TstMessageMsg repeated_message_value = 24;
+  repeated TstEnumEnm repeated_enum_value = 25;
+  map<string, TstMessageMsg> map_value = 26;
+  map<string, TstEnumEnm> map_enum_value = 27;
+  map<int32, int32> map_int32_value = 28;
 }
 
 enum TstEnumEnm {

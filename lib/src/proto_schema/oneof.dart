@@ -36,6 +36,7 @@ OneofOptionCtx createOneofOptionCtx({
 }) {
   return ComposedOneofOptionCtx.merge$(
     oneofCtx: oneofCtx,
+    fieldMsg: fieldMsg,
     fieldBits: createFieldBits(
       messageCtx: oneofCtx,
       fieldMsg: fieldMsg,

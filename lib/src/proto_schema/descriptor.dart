@@ -333,13 +333,16 @@ SchemaCollection descriptorSchemaCollection({
         ),
         enclosingMessage: enclosingMessage,
         enumValues: enumDescriptor.value.map(
-          (value) => MpbEnumValueMsg$.create(
-            description: MpbDescriptionMsg$.create(
-              protoName: value.name,
-            ),
-            enumValue: value.number,
-          ),
-        ),
+          (value) {
+            return MpbEnumValueMsg$.create(
+              description: MpbDescriptionMsg$.create(
+                protoName: value.name,
+              ),
+            ).valueToMapEntry(
+              key: value.number,
+            );
+          },
+        ).entriesToMap(),
       );
     }
 
