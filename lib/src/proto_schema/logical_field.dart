@@ -3,6 +3,7 @@ part of 'proto_schema.dart';
 @Has()
 typedef FieldProtoName = String;
 
+
 // @Has()
 // typedef ReadLogicalField<F> = ReadAttribute<Msg, F>;
 

@@ -62,6 +62,15 @@ MessageCtx createMessageCtx({
       createEmptyInstance: messageCtx.createGenericMsg,
     )..hasRequiredFields = false;
 
+    messageCtx.callLogicalFieldsList().whereType<OneofCtx>().forEachIndexed(
+      (index, oneofCtx) {
+        oneofCtx.oneofAddToBuilderInfo(
+          builderInfo: builderInfo,
+          oneofIndex: index,
+        );
+      },
+    );
+
     final fields = messageCtx
         .messageFieldCtxIterable()
         .sortedBy<num>((e) => e.fieldCtxTagNumber());

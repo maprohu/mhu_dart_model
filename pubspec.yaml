@@ -39,4 +39,5 @@ dev_dependencies:
   build_runner: ^2.4.6
   mhu_dart_builder: ^1.0.2
   mhu_dart_pbgen: ^1.0.0
+  freezed: ^2.4.1
 

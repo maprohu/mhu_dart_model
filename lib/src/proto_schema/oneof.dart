@@ -9,7 +9,8 @@ abstract class OneofCtx
         MessageCtx,
         LogicalFieldActions,
         LogicalFieldCtx,
-        HasCallOneofOptionsList {}
+        HasCallOneofOptionsList,
+        HasOneofMsg {}
 
 @Compose()
 abstract class OneofOptionCtx implements OneofCtx, FieldBits, FieldCtx {}
@@ -27,6 +28,8 @@ OneofCtx createOneofCtx({
       fieldProtoName: oneofMsg.description.protoName,
     ),
     callOneofOptionsList: () => oneofOptionsList,
+
+    oneofMsg: oneofMsg,
   );
 }
 
@@ -41,5 +44,16 @@ OneofOptionCtx createOneofOptionCtx({
       messageCtx: oneofCtx,
       fieldMsg: fieldMsg,
     ),
+  );
+}
+
+void oneofAddToBuilderInfo({
+  @extHas required OneofMsg oneofMsg,
+  required int oneofIndex,
+  @ext required BuilderInfo builderInfo,
+}) {
+  builderInfo.oo(
+    oneofIndex,
+    oneofMsg.fields.map((e) => e.fieldInfo.tagNumber).toList()..sort(),
   );
 }

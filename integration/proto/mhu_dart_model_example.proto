@@ -31,6 +31,15 @@ message TstFieldTypesMsg {
   map<string, TstMessageMsg> map_value = 26;
   map<string, TstEnumEnm> map_enum_value = 27;
   map<int32, int32> map_int32_value = 28;
+
+  oneof oneof_1 {
+    int32 option_1_1 = 201;
+    int32 option_1_2 = 202;
+  }
+  oneof oneof_2 {
+    int32 option_2_1 = 102;
+    int32 option_2_2 = 101;
+  }
 }
 
 enum TstEnumEnm {
