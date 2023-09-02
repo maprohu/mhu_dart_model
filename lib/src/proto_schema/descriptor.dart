@@ -4,6 +4,9 @@ typedef PbTypes = FieldDescriptorProto_Type;
 typedef MapKeyTypes = MpbMapTypeMsg_KeyTypeEnm;
 typedef ScalarTypes = MpbScalarTypeEnm;
 
+@Has()
+typedef ScalarTypeEnm = MpbScalarTypeEnm;
+
 typedef TypePath = IList<String>;
 typedef TypeCoordinates = ({String fileName, TypePath typePath});
 typedef MessagePath = (FileDescriptorProto, DescriptorProto);

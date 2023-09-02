@@ -1,5 +1,7 @@
 import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 import 'package:mhu_dart_commons/commons.dart';
+import 'package:mhu_dart_proto/mhu_dart_proto.dart';
+import 'package:protobuf/protobuf.dart';
 
 import '../proto.dart';
 
@@ -66,4 +68,10 @@ CmnAny cmnAnyFromBytes({
   return CmnAny()
     ..data = bytes
     ..freeze();
+}
+
+CmnAny cmnAnyFromMsg<M extends Msg>({
+  @ext required M msg,
+}) {
+  return msg.writeToBuffer().cmnAnyFromBytes();
 }

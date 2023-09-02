@@ -61,8 +61,19 @@ sealed class SingleTypeActions<V extends Object>
         HasPbDefaultOrMarker {}
 
 @Compose()
+abstract class ScalarTypeLogicActions<V extends Object>
+    implements
+        SingleTypeReadWrite<V>,
+        HasPbFieldTypeCode,
+        HasPbRepeatedFieldTypeCode,
+        HasPbDefaultOrMarker {}
+
+@Compose()
 abstract class ScalarTypeActions<V extends Object>
-    implements SingleTypeReadWrite<V>, SingleTypeActions<V> {}
+    implements
+        ScalarTypeLogicActions<V>,
+        SingleTypeActions<V>,
+        HasScalarTypeEnm {}
 
 @Compose()
 abstract class MessageTypeActions
@@ -115,7 +126,7 @@ TypeActions fieldMsgTypeActions({
       final valueActions = mapType.valueType.singleTypeActions(
         messageCtx: messageCtx,
       );
-      final mapKeyTypeActions = keyTypeEnm.scalarTypeActions();
+      final mapKeyTypeActions = keyTypeEnm.scalarTypeLogicActions();
       return mapKeyTypeActions.singleTypeGeneric(
         <K extends Object>() {
           return valueActions.singleTypeGeneric(
@@ -136,14 +147,13 @@ TypeActions fieldMsgTypeActions({
   }
 }
 
-SingleTypeActions<Object> singleTypeActions({
+SingleTypeActions singleTypeActions({
   @ext required MpbSingleTypeMsg singleType,
   required MessageCtx messageCtx,
 }) {
   return switch (singleType.type) {
     MpbSingleTypeMsg_Type$scalarType(:final scalarType) =>
-      // ignore: unnecessary_cast
-      scalarType.scalarTypeActions() as SingleTypeActions,
+      scalarType.scalarSingleTypeActions(),
     MpbSingleTypeMsg_Type$enumType(:final enumType) => enumTypeActions(
         messageCtx: messageCtx,
         enumReferenceMsg: enumType,
@@ -222,7 +232,21 @@ EnumTypeActions enumTypeActions({
   );
 }
 
-ScalarTypeActions scalarTypeActions({
+SingleTypeActions scalarSingleTypeActions({
+  @ext required MpbScalarTypeEnm scalarTypeEnm,
+}) {
+  final logic = scalarTypeEnm.scalarTypeLogicActions();
+
+  return logic.singleTypeGeneric(<V extends Object>() {
+    assert(V != Object);
+    return ComposedScalarTypeActions<V>.scalarTypeLogicActions(
+      scalarTypeLogicActions: logic as ScalarTypeLogicActions<V>,
+      scalarTypeEnm: scalarTypeEnm,
+    );
+  });
+}
+
+ScalarTypeLogicActions scalarTypeLogicActions({
   @ext required MpbScalarTypeEnm scalarTypeEnm,
 }) {
   return switch (scalarTypeEnm) {
@@ -352,13 +376,14 @@ SingleTypeReadWrite<V> singleTypeReadWriteActions<V extends Object>({
     Msg message,
   ) writer,
 }) {
-  return ComposedSingleTypeReadWrite(
-    readFieldValue: singleReadFieldValue(
+  assert(V != Object);
+  return ComposedSingleTypeReadWrite<V>(
+    readFieldValue: singleReadFieldValue<V>(
       readFieldValue: (message, fieldIndex) {
         return reader(message).call(fieldIndex);
       },
     ),
-    writeFieldValue: singleWriteFieldValue(
+    writeFieldValue: singleWriteFieldValue<V>(
       writeFieldValue: (message, fieldCoordinates, value) {
         return writer(message).call(
           fieldCoordinates.fieldIndex,
@@ -366,11 +391,11 @@ SingleTypeReadWrite<V> singleTypeReadWriteActions<V extends Object>({
         );
       },
     ),
-    singleTypeGeneric: genericFunction1(),
+    singleTypeGeneric: genericFunction1<Object, V>(),
   );
 }
 
-ScalarTypeActions<V> scalarTypeReadWriteActions<V extends Object>({
+ScalarTypeLogicActions<V> scalarTypeReadWriteActions<V extends Object>({
   required V Function(FieldIndex fieldIndex) Function(
     Msg message,
   ) reader,
@@ -381,8 +406,9 @@ ScalarTypeActions<V> scalarTypeReadWriteActions<V extends Object>({
   required PbRepeatedFieldTypeCode pbRepeatedFieldTypeCode,
   PbDefaultOrMarker pbDefaultOrMarker,
 }) {
-  return ComposedScalarTypeActions.singleTypeReadWrite(
-    singleTypeReadWrite: singleTypeReadWriteActions(
+  assert(V != Object);
+  return ComposedScalarTypeLogicActions<V>.singleTypeReadWrite(
+    singleTypeReadWrite: singleTypeReadWriteActions<V>(
       reader: reader,
       writer: writer,
     ),
@@ -395,6 +421,7 @@ ScalarTypeActions<V> scalarTypeReadWriteActions<V extends Object>({
 ReadFieldValue<V?> singleReadFieldValue<V extends Object>({
   @ext required ReadFieldValue<V> readFieldValue,
 }) {
+  assert(V != Object);
   return (message, fieldIndex) {
     if (!message.$_has(fieldIndex)) {
       return null;
@@ -407,6 +434,7 @@ ReadFieldValue<V?> singleReadFieldValue<V extends Object>({
 WriteFieldValue<V?> singleWriteFieldValue<V extends Object>({
   @ext required WriteFieldValue<V> writeFieldValue,
 }) {
+  assert(V != Object);
   return (message, fieldCoordinates, value) {
     if (value == null) {
       message.clearField(

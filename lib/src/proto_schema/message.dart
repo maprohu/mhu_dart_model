@@ -7,6 +7,11 @@ typedef LogicalFieldsList = IList<LogicalFieldCtx>;
 typedef LookupFieldIndex = FieldIndex Function(FieldMsg fieldMsg);
 
 @Has()
+typedef LookupFieldByTagNumber = FieldCtx Function(
+  TagNumberValue tagNumberValue,
+);
+
+@Has()
 typedef GenericBuilderInfo = BuilderInfo;
 
 @Has()
@@ -19,11 +24,13 @@ typedef DefaultGenericMsg = GenericMsg;
 typedef CreateGenericMsg = CreateValue<GenericMsg>;
 
 @Compose()
+@Has()
 abstract class MessageCtx
     implements
         SchemaCtx,
         HasCallLogicalFieldsList,
         HasLookupFieldIndex,
+        HasLookupFieldByTagNumber,
         HasCallGenericBuilderInfo,
         HasCallEnclosingMessage,
         HasCallDefaultGenericMsg,
@@ -88,6 +95,11 @@ MessageCtx createMessageCtx({
 
   GenericMsg createGenericMsg() => GenericMsg(info: builderInfo);
 
+  late final fieldCtxByTagNumber = {
+    for (final fieldCtx in messageCtx.messageFieldCtxIterable())
+      fieldCtx.fieldCtxTagNumber(): fieldCtx,
+  };
+
   return messageCtx = ComposedMessageCtx.schemaCtx(
     schemaCtx: schemaCtx,
     callLogicalFieldsList: () => logicalFieldsList,
@@ -103,6 +115,8 @@ MessageCtx createMessageCtx({
       );
     }),
     messageMsg: messageMsg,
+    lookupFieldByTagNumber: (tagNumberValue) =>
+        fieldCtxByTagNumber.getOrThrow(tagNumberValue),
   );
 }
 
