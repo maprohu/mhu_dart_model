@@ -15,6 +15,10 @@ dependency_overrides:
     path: ../mhu_dart_builder
   mhu_dart_sourcegen:
     path: ../mhu_dart_sourcegen
+  mhu_dart_protoc:
+    path: ../mhu_dart_protoc
+  mhu_dart_pbschema:
+    path: ../mhu_dart_pbschema
   mhu_dart_pbgen:
     path: ../mhu_dart_pbgen
   mhu_dart_annotation:

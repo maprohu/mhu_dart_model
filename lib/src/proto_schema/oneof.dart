@@ -28,7 +28,6 @@ OneofCtx createOneofCtx({
       fieldProtoName: oneofMsg.description.protoName,
     ),
     callOneofOptionsList: () => oneofOptionsList,
-
     oneofMsg: oneofMsg,
   );
 }

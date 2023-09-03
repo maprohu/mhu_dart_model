@@ -14,7 +14,6 @@ part 'proto_schema.g.has.dart';
 
 part 'proto_schema.g.dart';
 
-part 'proto_schema.freezed.dart';
 
 part 'message.dart';
 

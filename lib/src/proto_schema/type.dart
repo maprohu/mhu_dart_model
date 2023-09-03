@@ -28,7 +28,7 @@ typedef PbDefaultEnumValue = ProtobufEnum?;
 typedef CollectionElementTypeActions<V extends Object> = SingleTypeActions<V>;
 
 @Has()
-typedef MapKeyTypeActions<V extends Object> = SingleTypeActions<V>;
+typedef MapKeyTypeActions<V extends Object> = ScalarTypeLogicActions<V>;
 
 @Has()
 typedef UpdateBuilderInfoType = void Function(
@@ -69,6 +69,7 @@ abstract class ScalarTypeLogicActions<V extends Object>
         HasPbDefaultOrMarker {}
 
 @Compose()
+@Has()
 abstract class ScalarTypeActions<V extends Object>
     implements
         ScalarTypeLogicActions<V>,
@@ -526,4 +527,10 @@ void fieldCtxAddBuilderInfoField({
         });
       });
   }
+}
+
+ScalarTypeActions<V> castScalarTypeActions<V extends Object>({
+  @ext required ScalarTypeActions scalarTypeActions,
+}) {
+  return scalarTypeActions as ScalarTypeActions<V>;
 }
