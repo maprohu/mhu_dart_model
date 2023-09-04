@@ -1,6 +1,6 @@
 import 'package:mhu_dart_annotation/mhu_dart_annotation.dart';
 import 'package:mhu_dart_commons/commons.dart';
-import 'package:mhu_dart_proto/mhu_dart_proto.dart';
+import 'package:mhu_dart_pbschema/mhu_dart_pbschema.dart';
 import 'package:protobuf/protobuf.dart';
 
 import '../proto.dart';
