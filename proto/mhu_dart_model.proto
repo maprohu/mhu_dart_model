@@ -1,7 +1,61 @@
 syntax = "proto3";
 
-message CmnAny {
-  bytes data = 1;
+message CmnScalarMsg {
+  oneof  type {
+    double double_value = 1;
+    float float_value = 2;
+    int32 int32_value = 3;
+    int64 int64_value = 4;
+    uint32 uint32_value = 5;
+    uint64 uint64_value = 6;
+    sint32 sint32_value = 7;
+    sint64 sint64_value = 8;
+    fixed32 fixed32_value = 9;
+    fixed64 fixed64_value = 10;
+    sfixed32 sfixed32_value = 11;
+    sfixed64 sfixed64_value = 12;
+    bool bool_value = 13;
+    string string_value = 14;
+    bytes bytes_value = 15;
+  }
+}
+
+message CmnSingleMsg {
+  oneof type {
+    CmnScalarMsg scalar_value = 1;
+    bytes message_value = 2;
+    int32 enum_value = 3;
+  }
+}
+message CmnRepeatedMsg {
+  repeated CmnSingleMsg single_values = 1;
+}
+message CmnRepeatedStringMsg {
+  repeated string string_values = 1;
+}
+message CmnMapEntryMsg {
+  CmnScalarMsg entry_key = 1;
+  CmnSingleMsg entry_value = 2;
+}
+message CmnMapMsg {
+  repeated CmnMapEntryMsg entries = 1;
+}
+message CmnStringMapMsg {
+  map<string, CmnSingleMsg> string_map = 1;
+}
+message CmnInt32MapMsg {
+  map<int32, CmnSingleMsg> int32_map = 1;
+}
+message CmnAnyMsg {
+  oneof  type {
+//    bytes raw_value = 1;
+    CmnSingleMsg single_value = 2;
+    CmnRepeatedMsg repeated_value = 3;
+    CmnMapMsg map_value = 4;
+    CmnStringMapMsg string_map_value = 5;
+    CmnInt32MapMsg int32_map_value = 6;
+    CmnRepeatedStringMsg repeated_string_value = 7;
+  }
 }
 
 message CmnTimestampMsg {

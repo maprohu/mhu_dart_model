@@ -62,16 +62,40 @@ Comparator<StringMapEntry<CmnEnumOptionMsg>> cmnEnumOptionsComparator =
   ),
 ]);
 
-CmnAny cmnAnyFromBytes({
+CmnAnyMsg cmnAnyFromMsgBytes({
   @ext required List<int> bytes,
 }) {
-  return CmnAny()
-    ..data = bytes
+  return CmnAnyMsg()
+    ..ensureSingleValue().messageValue = bytes
     ..freeze();
 }
 
-CmnAny cmnAnyFromMsg<M extends Msg>({
+CmnAnyMsg cmnAnyFromMsg<M extends Msg>({
   @ext required M msg,
 }) {
-  return msg.writeToBuffer().cmnAnyFromBytes();
+  return msg.writeToBuffer().cmnAnyFromMsgBytes();
 }
+
+typedef AnyMsg = CmnAnyMsg;
+
+typedef AnyMsgUpdates = Updates<AnyMsg>;
+
+CmnAnyMsg anyMsgFromUpdates({
+  @ext required AnyMsgUpdates anyMsgUpdates,
+}) {
+  return CmnAnyMsg()
+    ..also(anyMsgUpdates)
+    ..freeze();
+}
+
+CmnSingleMsg singleMsgString({
+  @ext required String stringValue,
+}) {
+  return CmnSingleMsg()
+    ..ensureScalarValue().stringValue = stringValue
+    ..freeze();
+}
+
+
+typedef AnyMsgLift<T> = Lift<AnyMsg, T>;
+
