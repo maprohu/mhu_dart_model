@@ -99,3 +99,4 @@ CmnSingleMsg singleMsgString({
 
 typedef AnyMsgLift<T> = Lift<AnyMsg, T>;
 
+final anyMsgBinaryLift = AnyMsg.create.createBinaryProtoLift();
