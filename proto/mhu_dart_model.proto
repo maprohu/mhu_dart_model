@@ -33,6 +33,9 @@ message CmnRepeatedMsg {
 message CmnRepeatedStringMsg {
   repeated string string_values = 1;
 }
+message CmnRepeatedInt32Msg {
+  repeated int32 int32_values = 1;
+}
 message CmnMapEntryMsg {
   CmnScalarMsg entry_key = 1;
   CmnSingleMsg entry_value = 2;
@@ -55,6 +58,7 @@ message CmnAnyMsg {
     CmnStringMapMsg string_map_value = 5;
     CmnInt32MapMsg int32_map_value = 6;
     CmnRepeatedStringMsg repeated_string_value = 7;
+    CmnRepeatedInt32Msg repeated_int32_value = 8;
   }
 }
 
