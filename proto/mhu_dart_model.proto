@@ -263,3 +263,8 @@ enum CmnThemeModeEnm {
   dark = 2;
 }
 
+// file system
+
+message CmnStringPathMsg {
+  repeated string path = 1;
+}
